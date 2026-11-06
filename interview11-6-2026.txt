@@ -1,0 +1,54 @@
+## Web Full Stack Lead interview questions
+
+I grouped repeated questions and kept the follow-ups that tested a distinct point.
+
+**Background and leadership**
+
+1. Tell me about yourself. How many years of experience do you have, and who are you currently working with?
+2. Have you led an engineering team? How would you lead a team through the design and implementation of a scalable cloud-native application?
+
+**AWS, scalability, and reliability**
+
+3. What hands-on experience do you have with AWS cloud-native development?
+4. How would you design a scalable, highly available, fault-tolerant application on AWS?
+5. How would you stop your microservices from repeatedly calling a failing third-party service? What failure conditions and HTTP status codes would make you open the circuit breaker?
+6. How would you design an application to handle **one million requests per second**? How would you identify and optimize bottlenecks?
+7. How would you handle a production incident involving downtime, high API latency, or service failures?
+8. What hands-on experience do you have with Kubernetes and containerization? Have you built microservices?
+
+**Node.js and large file downloads**
+
+9. What experience do you have with Node.js? How does its event loop work, and what are its phases?
+10. What is the difference between microtasks and macrotasks? Which runs first, and where does `process.nextTick()` rank relative to Promise callbacks?
+11. How would you let users download a **100 GB file** from a React application without exhausting browser memory? How would you optimize the download on the server side?
+
+**TypeScript**
+
+12. What is TypeScript?
+13. What is the difference between an `interface` and a `type` alias? Can a type alias be extended?
+14. What are generics, and what problem do they solve?
+15. What is the difference between `any`, `unknown`, and `never`?
+
+**React and state management**
+
+16. What are React Fiber and concurrent rendering? How does React prioritize updates, and can it interrupt rendering work?
+17. What causes stale closures in React Hooks, and how do you prevent them? How does a dependency array work?
+18. How would you optimize a React application with thousands of components that re-render frequently? What tools would you use to find the bottlenecks?
+19. Have you used Redux or Redux Toolkit? How does Redux differ from the React Context API?
+
+**Authentication and security**
+
+20. What authentication methods do you know? Is OAuth 2.0 used for authentication or authorization?
+21. If someone steals a JWT from a React and Node.js application, how would you limit its misuse, identify the specific token, and revoke it?
+
+**GraphQL and Federation**
+
+22. What experience do you have with GraphQL? How would you architect GraphQL for a microservices-based application?
+23. How would you design a GraphQL schema that combines data from **four microservices**?
+24. What are GraphQL resolvers and mutations?
+25. What is the GraphQL **N+1 problem**, and how would you solve it?
+
+**Multi-tenant architecture**
+
+26. How would you design a multi-tenant application? When would you use a shared database versus a separate database per tenant?
+27. How would you identify a high-volume tenant? At what stage would you decide on the database model?
