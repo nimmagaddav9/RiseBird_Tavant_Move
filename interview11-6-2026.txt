@@ -1,54 +1,100 @@
-## Web Full Stack Lead interview questions
+WEB FULL STACK LEAD INTERVIEW Q&A
+27 questions with sample practice answers based on the interview topics.
+For experience questions, adapt the wording to reflect your own work.
 
-I grouped repeated questions and kept the follow-ups that tested a distinct point.
+BACKGROUND AND LEADERSHIP
 
-**Background and leadership**
+Q1. Tell me about yourself. How much experience do you have, and where do you work?
+A. I have 13+ years of web development experience. At First Citizens Bank, I build React and TypeScript workflows for user enrollment, account administration, and reporting. At United Airlines, I worked on the migration of united.com account features from .NET to React and supported production releases.
 
-1. Tell me about yourself. How many years of experience do you have, and who are you currently working with?
-2. Have you led an engineering team? How would you lead a team through the design and implementation of a scalable cloud-native application?
+Q2. Have you led a team? How would you lead a scalable cloud application project?
+A. At United, I coordinated developers and helped deliver releases. For a new project, I would agree on traffic, availability, and security requirements, define service boundaries, and turn the design into small deliverable slices. I would stay hands-on through implementation and reviews, and use load tests and staged releases to verify the design.
 
-**AWS, scalability, and reliability**
+AWS, SCALABILITY, AND RELIABILITY
 
-3. What hands-on experience do you have with AWS cloud-native development?
-4. How would you design a scalable, highly available, fault-tolerant application on AWS?
-5. How would you stop your microservices from repeatedly calling a failing third-party service? What failure conditions and HTTP status codes would make you open the circuit breaker?
-6. How would you design an application to handle **one million requests per second**? How would you identify and optimize bottlenecks?
-7. How would you handle a production incident involving downtime, high API latency, or service failures?
-8. What hands-on experience do you have with Kubernetes and containerization? Have you built microservices?
+Q3. What hands-on AWS cloud-native experience do you have?
+A. I worked with AWS in development and staging, while DevOps owned production infrastructure. My experience includes supporting AWS-hosted applications and working with services such as Lambda, S3, and CloudWatch. I would explain which changes I made directly and where I partnered with DevOps.
 
-**Node.js and large file downloads**
+Q4. How would you design a scalable, highly available application on AWS?
+A. Put a load balancer in front of stateless services across multiple Availability Zones and scale them based on traffic and saturation. Use a Multi-AZ data store with backups, define recovery targets, and test failover. Apply request timeouts and bounded retries, and monitor latency, errors, and resource use.
 
-9. What experience do you have with Node.js? How does its event loop work, and what are its phases?
-10. What is the difference between microtasks and macrotasks? Which runs first, and where does `process.nextTick()` rank relative to Promise callbacks?
-11. How would you let users download a **100 GB file** from a React application without exhausting browser memory? How would you optimize the download on the server side?
+Q5. How would you stop calls to a failing third party? Which errors count?
+A. Use a circuit breaker around the dependency. Open it when a rolling window exceeds a failure threshold after enough requests. Count connection errors, timeouts, and relevant 5xx responses. Exclude ordinary validation errors and handle 429 according to rate-limit policy. Return a safe fallback while open and allow limited probes to test recovery.
 
-**TypeScript**
+Q6. How would you handle one million requests per second and optimize it?
+A. First clarify whether the figure is peak or sustained, the read/write mix, payload size, cacheability, and latency target. Estimate origin traffic after caching. Use edge caching for eligible reads, distribute stateless services, partition hot data, and queue deferrable work. Run representative load tests and use p95/p99 latency, cache hit rate, and saturation to find the first bottleneck.
 
-12. What is TypeScript?
-13. What is the difference between an `interface` and a `type` alias? Can a type alias be extended?
-14. What are generics, and what problem do they solve?
-15. What is the difference between `any`, `unknown`, and `never`?
+Q7. How would you handle downtime, high API latency, or service failures?
+A. Determine the impact, assign an incident lead, and communicate status. Use metrics, logs, traces, and deployment history to isolate the issue. Restore service with a safe rollback, feature disablement, or traffic shift. Verify recovery and document the root cause, follow-up actions, and owners.
 
-**React and state management**
+Q8. What is your Kubernetes, containerization, and microservices experience?
+A. I have built Node.js REST endpoints and integrated frontend workflows with independent services. I have not used Kubernetes in my current application. I can explain how I would package a service in Docker and use a Kubernetes Deployment and Service, readiness probes, scaling, and rolling updates.
 
-16. What are React Fiber and concurrent rendering? How does React prioritize updates, and can it interrupt rendering work?
-17. What causes stale closures in React Hooks, and how do you prevent them? How does a dependency array work?
-18. How would you optimize a React application with thousands of components that re-render frequently? What tools would you use to find the bottlenecks?
-19. Have you used Redux or Redux Toolkit? How does Redux differ from the React Context API?
+NODE.JS AND LARGE FILES
 
-**Authentication and security**
+Q9. What is your Node.js experience, and how does the event loop work?
+A. I have worked on Node.js APIs that support frontend workflows. Node runs JavaScript callbacks on the event-loop thread while the OS or libuv handles asynchronous I/O as appropriate. The main phases are timers, pending callbacks, idle/prepare, poll, check, and close callbacks. CPU-heavy synchronous work can block the loop.
 
-20. What authentication methods do you know? Is OAuth 2.0 used for authentication or authorization?
-21. If someone steals a JWT from a React and Node.js application, how would you limit its misuse, identify the specific token, and revoke it?
+Q10. How do microtasks, macrotasks, and process.nextTick() differ?
+A. Promise callbacks and queueMicrotask callbacks run at microtask checkpoints. Timers and setImmediate callbacks run in event-loop phases. At the top level of CommonJS, Node normally drains the nextTick queue before Promise microtasks. Top-level ES module execution can show the reverse order because module evaluation already runs in a microtask.
 
-**GraphQL and Federation**
+Q11. How would you download a 100 GB file from React and optimize the server?
+A. After checking authorization, have the API issue a signed object-storage URL and let the browser download manager stream to disk. Avoid fetching the entire file into a Blob. Support byte-range requests for resuming and a way to refresh an expired URL. Serve bytes directly from storage or a suitable CDN so the app server does not buffer or proxy the file.
 
-22. What experience do you have with GraphQL? How would you architect GraphQL for a microservices-based application?
-23. How would you design a GraphQL schema that combines data from **four microservices**?
-24. What are GraphQL resolvers and mutations?
-25. What is the GraphQL **N+1 problem**, and how would you solve it?
+TYPESCRIPT
 
-**Multi-tenant architecture**
+Q12. What is TypeScript?
+A. TypeScript adds static type checking to JavaScript and emits JavaScript. It catches many type mismatches before runtime. External data still needs runtime validation.
 
-26. How would you design a multi-tenant application? When would you use a shared database versus a separate database per tenant?
-27. How would you identify a high-volume tenant? At what stage would you decide on the database model?
+Q13. How do interface and type alias differ? Can a type alias be extended?
+A. Both can describe object shapes. Interfaces support declaration merging and extends. Type aliases can express unions and tuples as well as object shapes. You can add fields to an object type alias with an intersection, such as User & { role: string }.
+
+Q14. What are generics, and what problem do they solve?
+A. Generics let reusable code preserve relationships between types. An identity function identity<T>(value: T): T preserves the input type, and a Page<T> type can represent a page of users or orders while preserving the item type.
+
+Q15. How do any, unknown, and never differ?
+A. any bypasses most type checks. unknown accepts any value but requires narrowing before use. never represents a value that cannot occur, such as the remaining case after an exhaustive switch.
+
+REACT AND STATE MANAGEMENT
+
+Q16. What are React Fiber and concurrent rendering?
+A. Fiber organizes React's rendering work into units that can be scheduled by priority. Concurrent rendering can pause or discard render work so an urgent input update can take precedence over a transition. React applies DOM changes during the commit phase.
+
+Q17. What causes stale closures, and how do dependency arrays work?
+A. A callback can capture props or state from an older render. Include reactive values used by an effect in its dependency array so React can rerun it when they change. Use a functional state update when the next value depends on the previous one, or a ref when a long-lived callback needs the latest mutable value.
+
+Q18. How do you diagnose and optimize excessive React re-renders?
+A. Use React DevTools Profiler to identify expensive commits and Chrome Performance to separate render work from layout or scripting. Fix the cause by moving state closer to where it is used, narrowing subscriptions, or stabilizing props where profiling shows a benefit. Virtualize large lists and measure again.
+
+Q19. How does Redux Toolkit differ from React Context?
+A. Context distributes values through a component tree. Consumers update when the provider value changes. Redux Toolkit provides a store, reducers, middleware, and DevTools, and components can subscribe to selected state. I would use Context for things like theme and Redux Toolkit when shared workflows need predictable updates and granular subscriptions.
+
+AUTHENTICATION AND SECURITY
+
+Q20. What authentication methods do you know? Where does OAuth 2.0 fit?
+A. Applications can use server-backed sessions, passkeys, or identity-provider sign-in. OAuth 2.0 delegates authorization to access resources. OpenID Connect builds on OAuth 2.0 to authenticate the user and provide an ID token.
+
+Q21. How would you identify and revoke a stolen JWT?
+A. Correlate suspicious requests to a session or unique token ID (jti) using metadata rather than logging the raw token. Revoke the refresh session and block the access token ID until it expires. APIs must check revocation state to enforce immediate invalidation. Short-lived access tokens and refresh token rotation reduce exposure.
+
+GRAPHQL AND FEDERATION
+
+Q22. What GraphQL experience do you have, and how would you architect it for microservices?
+A. My project examples are primarily REST integrations. In a federated design, each domain team owns a subgraph and its resolvers. A router exposes a unified API, plans queries across subgraphs, and combines their results.
+
+Q23. How would you design a GraphQL schema spanning four microservices?
+A. Give each service ownership of its domain fields. For example, Users owns User, Orders owns Order, Payments owns Payment, and Shipping owns Shipment. Use stable entity keys such as Order.id to connect fields across subgraphs, compose the schemas, and validate composition in CI.
+
+Q24. What are GraphQL resolvers and mutations?
+A. A resolver supplies the value for a field by reading data or computing a result. A mutation represents a change, such as updating a shipping address or canceling an order. Its resolver validates inputs and permissions before calling the relevant service.
+
+Q25. What is the GraphQL N+1 problem, and how would you solve it?
+A. Fetching N users and then calling the database for each user's orders creates one initial query plus N additional queries. A request-scoped DataLoader can batch the order lookups into one bulk query and reuse duplicate lookups within the same request.
+
+MULTI-TENANT ARCHITECTURE
+
+Q26. How would you design a multi-tenant application and choose a database model?
+A. Derive tenant context from authenticated membership and enforce it on the server for every data access. Use a shared database with tenant IDs and enforced row isolation when requirements allow it. Use a dedicated database when compliance, restore requirements, or resource isolation justify it.
+
+Q27. How would you identify a high-volume tenant, and when would you choose the model?
+A. Decide the initial model during requirements and architecture based on compliance, expected load, and cost. Track requests, storage, database utilization, and latency per tenant. Revisit placement when sustained usage or load testing shows a tenant is affecting shared performance.
